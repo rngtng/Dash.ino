@@ -6,7 +6,6 @@
 #define BLUE  B001
 #define OFF   B000
 
-
 typedef struct {
   byte r;
   byte g;
@@ -32,6 +31,7 @@ class Dash
     };
     void init();
     void led_ctrl(uint8_t led_num, uint8_t rgb);
+    void led_off();
 
   private:
     void led_init(uint8_t led_num);

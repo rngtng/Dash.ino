@@ -24,11 +24,6 @@ void Dash::key_init(uint8_t key_num)
 
 void Dash::init()
 {
-  //  pinMode(pwr_en, OUTPUT);
-  //  printf("p \r\n");
-  //  digitalWrite(pwr_en, 1);
-  //  printf("p1 \r\n");
-
   byte i;
   for (i = 0; i < 4; i++) {
     led_init(i);
@@ -36,6 +31,19 @@ void Dash::init()
     printf("led %d inited\r\n", i);
     key_init(i);
     printf("key %d inited\r\n", i);
+  }
+
+//  pinMode(pwr_en, OUTPUT);
+//  printf("p \r\n");
+//  digitalWrite(pwr_en, 1);
+//  printf("p1 \r\n");
+}
+
+void Dash::led_off()
+{
+  byte i;
+  for (i = 0; i < 4; i++) {
+    led_ctrl(i, OFF);
   }
 }
 
