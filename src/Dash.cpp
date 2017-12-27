@@ -24,33 +24,38 @@ void Dash::key_init(uint8_t key_num)
 
 void Dash::init()
 {
-  byte i;
-  for (i = 0; i < 4; i++) {
-    led_init(i);
-    led_ctrl(i, OFF);
-    printf("led %d inited\r\n", i);
-    key_init(i);
-    printf("key %d inited\r\n", i);
+  byte led_num;
+  for (led_num = 0; led_num < 4; led_num++) {
+    printf("led %d init:\r\n", led_num);
+    led_init(led_num);
+    led(led_num, OFF);
+    printf("key %d init:\r\n", led_num);
+    key_init(led_num);    
   }
 
-//  pinMode(pwr_en, OUTPUT);
-//  printf("p \r\n");
-//  digitalWrite(pwr_en, 1);
-//  printf("p1 \r\n");
+  //  printf("power enable: \r\n");
+  //  pinMode(pwr_en, OUTPUT);
+  //  printf("p \r\n");
+  //  digitalWrite(pwr_en, 1);  
 }
 
-void Dash::led_off()
-{
-  byte i;
-  for (i = 0; i < 4; i++) {
-    led_ctrl(i, OFF);
-  }
-}
-
-void Dash::led_ctrl(uint8_t led_num, uint8_t rgb)
+void Dash::led(uint8_t led_num, uint8_t rgb)
 {
   digitalWrite(leds[led_num].r, (~rgb >> 2) & 1);
   digitalWrite(leds[led_num].g, (~rgb >> 1) & 1);
   digitalWrite(leds[led_num].b, (~rgb >> 0) & 1);
+}
+
+void Dash::all_led(uint8_t rgb)
+{
+  byte led_num;
+  for (led_num = 0; led_num < 4; led_num++) {
+    led(led_num, rgb);
+  }
+}
+
+bool Dash::key(uint8_t key_num)
+{
+  return digitalRead(Dash::keys[1]) == 0;
 }
 

@@ -1,10 +1,14 @@
 #ifndef _DASH_H_
 #define _DASH_H_
 
-#define RED   B100
-#define GREEN B010
-#define BLUE  B001
-#define OFF   B000
+#define OFF    B000
+#define RED    B100
+#define GREEN  B010
+#define YELLOW B110
+#define BLUE   B001
+#define PURPLE B101
+#define CYAN   B011
+#define WHITE  B111
 
 typedef struct {
   byte r;
@@ -30,8 +34,9 @@ class Dash
       
     };
     void init();
-    void led_ctrl(uint8_t led_num, uint8_t rgb);
-    void led_off();
+    void led(uint8_t led_num, uint8_t rgb);
+    void all_led(uint8_t rgb);
+    bool key(uint8_t key_num);
 
   private:
     void led_init(uint8_t led_num);
