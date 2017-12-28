@@ -30,13 +30,11 @@ class Dash
     //  pinMode(led1_g, OUTPUT);
     //  pinMode(led1_r, OUTPUT);
     //  pinMode(key1, INPUT_PULLUP);
-    Dash() {
-      
-    };
     void init();
     void led(uint8_t led_num, uint8_t rgb);
     void all_led(uint8_t rgb);
     bool key(uint8_t key_num);
+    int battery();
 
   private:
     void led_init(uint8_t led_num);

@@ -56,6 +56,11 @@ void Dash::all_led(uint8_t rgb)
 
 bool Dash::key(uint8_t key_num)
 {
-  return digitalRead(Dash::keys[1]) == 0;
+  return digitalRead(Dash::keys[key_num]) == 0;
+}
+
+int Dash::battery()
+{
+  return analogRead(A2);
 }
 
