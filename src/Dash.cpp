@@ -1,34 +1,37 @@
 #include "Arduino.h"
 #include "dash.h"
 
-LED DashClass::leds[] = {
-  {25, 24, 19, 0},
-  { 0,  2,  6, 0},
-  {22, 21,  1, 0},
-  {12, 11, 13, 0}
+LED DashClass::leds[] =
+{
+  {25, 24, 19, 0}, //1 { PE_4, PE_3, PC_4, 0 },
+  { 0,  2,  6, 0}, //3 { PA_6, PA_5, PC_4, 0 } ,
+  {22, 21,  1, 0}, //2 { PE_1, PE_0, PA_7, 0 },
+  {12, 11, 13, 0}  //4 { PC_3, PC_2, PC_1, 0 },
 };
 
-KEY DashClass::keys[]  = {
+KEY DashClass::keys[] =
+{
   {23, 0},
   {14, 0},
   {10, 0},
   {20, 0}
 };
 
-DashClass::DashClass() {
-//   LED leds[4] = {
-//     {25, 24, 19, 0}, //1 { PE_4, PE_3, PC_4, 0 },
-//     { 0,  2,  6, 0}, //3 { PA_6, PA_5, PC_4, 0 } ,
-//     {22, 21,  1, 0}, //2 { PE_1, PE_0, PA_7, 0 },
-//     {12, 11, 13, 0}  //4 { PC_3, PC_2, PC_1, 0 },
-//   };
-//
-//   KEY keys[4]  = {
-//     {23, 0},
-//     {14, 0},
-//     {10, 0},
-//     {20, 0}
-//   };
+DashClass::DashClass()
+{
+  //   LED leds[4] = {
+  //     {25, 24, 19, 0},
+  //     { 0,  2,  6, 0},
+  //     {22, 21,  1, 0},
+  //     {12, 11, 13, 0}
+  //   };
+  //
+  //   KEY keys[4]  = {
+  //     {23, 0},
+  //     {14, 0},
+  //     {10, 0},
+  //     {20, 0}
+  //   };
 }
 
 //void key_handler(uint32_t key_num, uint32_t event) {
@@ -59,13 +62,13 @@ void DashClass::led_init(uint8_t led_num)
 
 void DashClass::key_init(uint8_t key_num)
 {
-//  if (keys[key_num].pin != 14) {
-//    pinMode(keys[key_num].pin, INPUT_IRQ_FALL);
-//    digitalSetIrqHandler(keys[key_num].pin, &key_handler);
-//  }
-//  else {
-    pinMode(keys[key_num].pin, INPUT_PULLUP);
-//  }
+  //  if (keys[key_num].pin != 14) {
+  //    pinMode(keys[key_num].pin, INPUT_IRQ_FALL);
+  //    digitalSetIrqHandler(keys[key_num].pin, &key_handler);
+  //  }
+  //  else {
+  pinMode(keys[key_num].pin, INPUT_PULLUP);
+  //  }
 }
 
 void DashClass::begin()
@@ -78,11 +81,6 @@ void DashClass::begin()
     printf("key %d init:\r\n", led_num);
     key_init(led_num);
   }
-
-  //  printf("power enable: \r\n");
-  //  pinMode(pwr_en, OUTPUT);
-  //  printf("p \r\n");
-  //  digitalWrite(pwr_en, 1);
 }
 
 void DashClass::led(uint8_t led_num, uint8_t rgb)
@@ -109,7 +107,12 @@ bool DashClass::key(uint8_t key_num)
 
 int DashClass::battery()
 {
-  return analogRead(A2);
+  return analogRead(PIN_BAT);
+}
+
+void DashClass::off()
+{
+  pinMode(PIN_PWR, OUTPUT);
 }
 
 DashClass Dash;

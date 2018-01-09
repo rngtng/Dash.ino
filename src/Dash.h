@@ -10,23 +10,27 @@
 #define CYAN   B011
 #define WHITE  B111
 
-typedef struct {
+typedef struct
+{
   byte r;
   byte g;
   byte b;
   byte state;
 } LED;
 
-typedef struct {
+typedef struct
+{
   byte pin;
   byte state;
 } KEY;
 
-class DashClass {
+class DashClass
+{
   public:
     DashClass();
 
-    static const int pwr_en = 15;
+    static const int PIN_BAT = A2;
+    static const int PIN_PWR = 15;
 
     static LED leds[4];
     static KEY keys[4];
@@ -41,6 +45,7 @@ class DashClass {
     void all_led(uint8_t rgb);
     bool key(uint8_t key_num);
     int battery();
+    void off();
 
   private:
     void led_init(uint8_t led_num);
