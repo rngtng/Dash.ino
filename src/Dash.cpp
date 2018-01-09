@@ -15,6 +15,9 @@ KEY DashClass::keys[]  = {
   {20, 0}
 };
 
+DashClass::DashClass() {
+}
+
 void DashClass::led_init(uint8_t led_num)
 {
   pinMode(leds[led_num].r, OUTPUT);
@@ -71,3 +74,4 @@ int DashClass::battery()
   return analogRead(A2);
 }
 
+DashClass Dash;

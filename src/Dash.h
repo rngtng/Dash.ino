@@ -24,10 +24,11 @@ typedef struct {
 
 class DashClass {
   public:
+    DashClass();
+
     static const int pwr_en = 15;
 
     static LED leds[4];
-
     static KEY keys[4];
 
     //  pinMode(led4_g, OUTPUT);
@@ -35,6 +36,7 @@ class DashClass {
     //  pinMode(led1_g, OUTPUT);
     //  pinMode(led1_r, OUTPUT);
     //  pinMode(key1, INPUT_PULLUP);
+
     void begin();
     void led(uint8_t led_num, uint8_t rgb);
     void all_led(uint8_t rgb);
@@ -45,5 +47,7 @@ class DashClass {
     void led_init(uint8_t led_num);
     void key_init(uint8_t key_num);
 };
+
+extern DashClass Dash;
 
 #endif
