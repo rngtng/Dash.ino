@@ -1,14 +1,19 @@
 #include "Arduino.h"
 #include "dash.h"
 
-const RGB DashClass::leds[] = {
-  {25, 24, 19},
-  { 0,  2,  6},
-  {22, 21,  1},
-  {12, 11, 13}
+const LED DashClass::leds[] = {
+  {25, 24, 19, 0},
+  { 0,  2,  6, 0},
+  {22, 21,  1, 0},
+  {12, 11, 13, 0}
 };
 
-const int DashClass::keys[]  = { 23, 14, 10, 20 };
+const KEY DashClass::keys[]  = { 
+  {23, 0},
+  {14, 0}, 
+  {10, 0}, 
+  {20, 0} 
+ };
 
 void DashClass::led_init(uint8_t led_num)
 {
@@ -19,7 +24,7 @@ void DashClass::led_init(uint8_t led_num)
 
 void DashClass::key_init(uint8_t key_num)
 {
-  pinMode(keys[key_num], INPUT_PULLUP);
+  pinMode(keys[key_num].pin, INPUT_PULLUP);
 }
 
 void DashClass::begin()
@@ -56,7 +61,7 @@ void DashClass::all_led(uint8_t rgb)
 
 bool DashClass::key(uint8_t key_num)
 {
-  return digitalRead(DashClass::keys[key_num]) == 0;
+  return digitalRead(DashClass::keys[key_num].pin) == 0;
 }
 
 int DashClass::battery()
