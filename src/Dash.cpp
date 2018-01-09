@@ -22,7 +22,7 @@ void Dash::key_init(uint8_t key_num)
   pinMode(keys[key_num], INPUT_PULLUP);
 }
 
-void Dash::init()
+void Dash::begin()
 {
   byte led_num;
   for (led_num = 0; led_num < 4; led_num++) {
