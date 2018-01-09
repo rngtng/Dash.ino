@@ -16,7 +16,39 @@ KEY DashClass::keys[]  = {
 };
 
 DashClass::DashClass() {
+//   LED leds[4] = {
+//     {25, 24, 19, 0}, //1 { PE_4, PE_3, PC_4, 0 },
+//     { 0,  2,  6, 0}, //3 { PA_6, PA_5, PC_4, 0 } ,
+//     {22, 21,  1, 0}, //2 { PE_1, PE_0, PA_7, 0 },
+//     {12, 11, 13, 0}  //4 { PC_3, PC_2, PC_1, 0 },
+//   };
+//
+//   KEY keys[4]  = {
+//     {23, 0},
+//     {14, 0},
+//     {10, 0},
+//     {20, 0}
+//   };
 }
+
+//void key_handler(uint32_t key_num, uint32_t event) {
+//  byte led_num;
+//  switch (key_num) {
+//    case 23:
+//      led_num = 0;
+//      break;
+//    case 14:
+//      led_num = 1;
+//      break;
+//    case 10:
+//      led_num = 2;
+//      break;
+//    case 20:
+//      led_num = 3;
+//      break;
+//  }
+//  Dash.led(led_num, (Dash.leds[led_num].state + 1) % 8);
+//}
 
 void DashClass::led_init(uint8_t led_num)
 {
@@ -27,7 +59,13 @@ void DashClass::led_init(uint8_t led_num)
 
 void DashClass::key_init(uint8_t key_num)
 {
-  pinMode(keys[key_num].pin, INPUT_PULLUP);
+//  if (keys[key_num].pin != 14) {
+//    pinMode(keys[key_num].pin, INPUT_IRQ_FALL);
+//    digitalSetIrqHandler(keys[key_num].pin, &key_handler);
+//  }
+//  else {
+    pinMode(keys[key_num].pin, INPUT_PULLUP);
+//  }
 }
 
 void DashClass::begin()

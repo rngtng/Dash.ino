@@ -36,7 +36,6 @@ class DashClass {
     //  pinMode(led1_g, OUTPUT);
     //  pinMode(led1_r, OUTPUT);
     //  pinMode(key1, INPUT_PULLUP);
-
     void begin();
     void led(uint8_t led_num, uint8_t rgb);
     void all_led(uint8_t rgb);
@@ -46,6 +45,7 @@ class DashClass {
   private:
     void led_init(uint8_t led_num);
     void key_init(uint8_t key_num);
+    // friend void key_handler(uint32_t key_num, uint32_t event);
 };
 
 extern DashClass Dash;
