@@ -22,14 +22,13 @@ typedef struct {
   byte state;
 } KEY;
 
-class DashClass
-{
+class DashClass {
   public:
     static const int pwr_en = 15;
 
-    static const LED leds[4];
+    static LED leds[4];
 
-    static const KEY keys[4];
+    static KEY keys[4];
 
     //  pinMode(led4_g, OUTPUT);
     //  pinMode(led4_r, OUTPUT);
