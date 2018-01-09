@@ -16,7 +16,7 @@ typedef struct {
   byte b;
 } RGB;
 
-class Dash
+class DashClass
 {
   public:
     static const int pwr_en = 15;
