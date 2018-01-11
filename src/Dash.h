@@ -1,6 +1,9 @@
 #ifndef _DASH_H_
 #define _DASH_H_
 
+#include <GTimer.h>
+#include <sys_api.h>
+
 #define OFF    B000
 #define RED    B100
 #define GREEN  B010
@@ -12,45 +15,45 @@
 
 typedef struct
 {
-  byte r;
-  byte g;
-  byte b;
-  byte state;
+  uint8_t r;
+  uint8_t g;
+  uint8_t b;
+  uint8_t state;
 } LED;
 
 typedef struct
 {
-  byte pin;
-  byte state;
+  uint8_t pin;
+  int32_t state;
 } KEY;
 
 class DashClass
 {
   public:
-    DashClass();
-
-    static const int PIN_BAT = A2;
-    static const int PIN_PWR = 15;
+    static const uint8_t PIN_BAT = A2;
+    static const uint8_t PIN_PWR = 15;
 
     static LED leds[4];
     static KEY keys[4];
+    void (*key_handler)(uint8_t, int32_t);
 
     //  pinMode(led4_g, OUTPUT);
     //  pinMode(led4_r, OUTPUT);
     //  pinMode(led1_g, OUTPUT);
     //  pinMode(led1_r, OUTPUT);
     //  pinMode(key1, INPUT_PULLUP);
-    void begin();
+    void begin(void (*handler)(uint8_t, int32_t));
     void led(uint8_t led_num, uint8_t rgb);
     void all_led(uint8_t rgb);
-    bool key(uint8_t key_num);
-    int battery();
+    int32_t key(uint8_t key_num);
+    bool raw_key(uint8_t key_num);
+    uint32_t battery();
     void off();
 
   private:
     void led_init(uint8_t led_num);
     void key_init(uint8_t key_num);
-    // friend void key_handler(uint32_t key_num, uint32_t event);
+    friend void timer_handler(uint32_t data);
 };
 
 extern DashClass Dash;
