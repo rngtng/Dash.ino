@@ -24,15 +24,17 @@
 #define K3 2
 #define K4 3
 
+#define DASH_TIMER 4
 
 #define FULL 8
+#define KEEP 10
 
 typedef struct
 {
   uint8_t r;
   uint8_t g;
   uint8_t b;
-  uint8_t state;
+  uint8_t color;
   uint8_t brightness;
 } LED;
 
@@ -42,27 +44,31 @@ typedef struct
   int32_t state;
 } KEY;
 
+typedef struct
+{
+  uint32_t k1;
+  uint32_t k2;
+  uint32_t k3;
+  uint32_t k4;
+} DashKeyState;
+
 class DashClass
 {
   public:
     static const uint8_t PIN_BAT = A2;
     static const uint8_t PIN_PWR = 15;
+    static const uint8_t PIN_FKT = 18;
 
     static LED leds[4];
     static KEY keys[4];
-    void (*key_handler)(uint8_t, int32_t);
+    void (*custom_keys_handler)(DashKeyState);
 
-    //  pinMode(led4_g, OUTPUT);
-    //  pinMode(led4_r, OUTPUT);
-    //  pinMode(led1_g, OUTPUT);
-    //  pinMode(led1_r, OUTPUT);
-    //  pinMode(key1, INPUT_PULLUP);
     void begin();
-    void begin_key(void (*handler)(uint8_t, int32_t));
     void stop();
 
-    void led(uint8_t led_num, uint8_t rgb, uint8_t brightness = FULL);
-    int32_t key(uint8_t key_num);
+    void all_led(uint8_t rgb, uint8_t brightness = KEEP);
+    void led(uint8_t led_num, uint8_t rgb, uint8_t brightness = KEEP);
+    uint32_t key(uint8_t key_num);
 
     void raw_led(uint8_t led_num, uint8_t rgb);
     bool raw_key(uint8_t key_num);
@@ -71,14 +77,15 @@ class DashClass
     void off();
 
   private:
-    uint8_t dash_frame = 0;
+    uint8_t  led_frame = 0;
+    uint32_t key_frame = 0;
 
+    friend void dash_timer_handler(uint32_t data);
     void led_init(uint8_t led_num);
     void key_init(uint8_t key_num);
-    friend void dash_key_handler(uint32_t data);
-    friend void dash_led_handler(uint32_t data);
-    void frame_led(uint8_t led_num);
-    void next_frame();
+    void leds_handler();
+    void keys_handler();
+    void default_keys_handler(DashKeyState key_state);
 };
 
 extern DashClass Dash;

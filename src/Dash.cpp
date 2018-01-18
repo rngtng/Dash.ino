@@ -17,71 +17,42 @@ KEY DashClass::keys[] =
   {20, 0}
 };
 
-void dash_key_handler(uint32_t data) {
-  uint8_t key_num;
-  for (key_num = 0; key_num < 4; key_num++) {
-    uint32_t state = Dash.key(key_num);
-    if (key_num == K2 && state == 50) {
-      Dash.led(key_num, RED);
-      sys_reset();
-    } else if (key_num == K4 && state == 50) {
-      Dash.led(key_num, RED);
-      Dash.off();
-    } else {
-      Dash.key_handler(key_num, state);
-    }
-  }
-}
-
-void dash_led_handler(uint32_t data) {
-  uint8_t led_num;
-  Dash.next_frame();
-  for (led_num = 0; led_num < 4; led_num++) {
-    Dash.frame_led(led_num);
-  }
-}
-
-void DashClass::led_init(uint8_t led_num)
-{
-  pinMode(leds[led_num].r, OUTPUT);
-  pinMode(leds[led_num].g, OUTPUT);
-  pinMode(leds[led_num].b, OUTPUT);
-}
-
-void DashClass::key_init(uint8_t key_num)
-{
-  pinMode(keys[key_num].pin, INPUT_PULLUP);
+void dash_timer_handler(uint32_t data) {
+  Dash.keys_handler();
+  Dash.leds_handler();
 }
 
 void DashClass::begin()
 {
   uint8_t led_num;
-  for (led_num = 0; led_num < 4; led_num++) {
+  for (led_num = L1; led_num <= L4; led_num++) {
     printf("led %d init:\r\n", led_num);
     led_init(led_num);
-    led(led_num, OFF);
     printf("key %d init:\r\n", led_num);
     key_init(led_num);
   }
-  GTimer.begin(1, 5, dash_led_handler);
-}
-
-void DashClass::begin_key(void (*handler)(uint8_t, int32_t))
-{
-  key_handler = handler;
-  GTimer.begin(0, 1 * 1000 * 50, dash_key_handler);
+  GTimer.begin(DASH_TIMER, 5, dash_timer_handler);
 }
 
 void DashClass::stop()
 {
-  GTimer.stop(0);
-  GTimer.stop(1);
+  GTimer.stop(DASH_TIMER);
+}
+
+void DashClass::all_led(uint8_t rgb, uint8_t brightness)
+{
+  uint8_t led_num;
+  for (led_num = 0; led_num < 4; led_num++) {
+    led(led_num, rgb, brightness);
+  }
 }
 
 void DashClass::led(uint8_t led_num, uint8_t rgb, uint8_t brightness)
 {
-  leds[led_num].state = rgb;
-  leds[led_num].brightness = brightness;
+  leds[led_num].color = rgb;
+  if (brightness < KEEP) {
+    leds[led_num].brightness = brightness;
+  }
 }
 
 void DashClass::raw_led(uint8_t led_num, uint8_t rgb)
@@ -91,21 +62,22 @@ void DashClass::raw_led(uint8_t led_num, uint8_t rgb)
   digitalWrite(leds[led_num].b, (~rgb >> 0) & 1);
 }
 
-int32_t DashClass::key(uint8_t key_num)
+uint32_t DashClass::key(uint8_t key_num)
 {
   if (raw_key(key_num)) {
-    if (keys[key_num].state < 0) {
-      keys[key_num].state = 0;
+    if (keys[key_num].state == LOW) {
+      keys[key_num].state = millis();
+      return RISING;
     }
-    ++keys[key_num].state;
+    return (millis() - keys[key_num].state);
   }
   else {
-    if (keys[key_num].state > 0) {
-      keys[key_num].state = 0;
+    if (keys[key_num].state != LOW) {
+      keys[key_num].state = LOW;
+      return FALLING;
     }
-    --keys[key_num].state;
+    return LOW;
   }
-  return keys[key_num].state;
 }
 
 
@@ -124,16 +96,51 @@ void DashClass::off()
   pinMode(PIN_PWR, OUTPUT);
 }
 
-void DashClass::frame_led(uint8_t led_num)
+/* ==================== private==================== */
+
+void DashClass::led_init(uint8_t led_num)
 {
-  raw_led(led_num, (dash_frame < leds[led_num].brightness) ? leds[led_num].state : OFF);
+  pinMode(leds[led_num].r, OUTPUT);
+  pinMode(leds[led_num].g, OUTPUT);
+  pinMode(leds[led_num].b, OUTPUT);
 }
 
-void DashClass::next_frame()
+void DashClass::key_init(uint8_t key_num)
 {
-  dash_frame++;
-  if (dash_frame > FULL) {
-    dash_frame = 0;
+  pinMode(keys[key_num].pin, INPUT_PULLUP);
+}
+
+void DashClass::leds_handler() {
+  uint8_t led_num;
+  if (++led_frame > FULL) {
+    led_frame = 0;
+  }
+  for (led_num = 0; led_num < 4; led_num++) {
+    raw_led(led_num, (led_frame < leds[led_num].brightness) ? leds[led_num].color : OFF);
+  }
+}
+
+void DashClass::keys_handler() {
+  if (++key_frame > 1000) {
+    key_frame = 0;
+    DashKeyState key_state = { key(K1), key(K2), key(K3), key(K4) };
+
+    default_keys_handler(key_state);
+    if (custom_keys_handler) {
+      custom_keys_handler(key_state);
+    }
+  }
+}
+
+void DashClass::default_keys_handler(DashKeyState key_state) {
+  if (key_state.k2 > 5000) {
+    led(L2, RED);
+    stop();
+    sys_reset();
+  } else if (key_state.k4 > 5000) {
+    led(L4, RED);
+    stop();
+    off();
   }
 }
 
