@@ -27,7 +27,7 @@
 #define DASH_TIMER 4
 
 #define FULL 8
-#define KEEP 10
+#define KEEP_BRIGHTNESS_UNCHANGED 10
 
 typedef struct
 {
@@ -66,14 +66,15 @@ class DashClass
     void begin();
     void stop();
 
-    void all_led(uint8_t rgb, uint8_t brightness = KEEP);
-    void led(uint8_t led_num, uint8_t rgb, uint8_t brightness = KEEP);
+    void all_led(uint8_t rgb, uint8_t brightness = KEEP_BRIGHTNESS_UNCHANGED);
+    void led(uint8_t led_num, uint8_t rgb, uint8_t brightness = KEEP_BRIGHTNESS_UNCHANGED);
     uint32_t key(uint8_t key_num);
 
     void raw_led(uint8_t led_num, uint8_t rgb);
     bool raw_key(uint8_t key_num);
 
     uint32_t battery();
+    void reset();
     void off();
 
   private:

@@ -50,7 +50,7 @@ void DashClass::all_led(uint8_t rgb, uint8_t brightness)
 void DashClass::led(uint8_t led_num, uint8_t rgb, uint8_t brightness)
 {
   leds[led_num].color = rgb;
-  if (brightness < KEEP) {
+  if (brightness >= 0 && brightness <= FULL) {
     leds[led_num].brightness = brightness;
   }
 }
@@ -89,6 +89,11 @@ bool DashClass::raw_key(uint8_t key_num)
 uint32_t DashClass::battery()
 {
   return analogRead(PIN_BAT);
+}
+
+void DashClass::reset()
+{
+  sys_reset();
 }
 
 void DashClass::off()
@@ -136,7 +141,7 @@ void DashClass::default_keys_handler(DashKeyState key_state) {
   if (key_state.k2 > 5000) {
     led(L2, RED);
     stop();
-    sys_reset();
+    reset();
   } else if (key_state.k4 > 5000) {
     led(L4, RED);
     stop();
