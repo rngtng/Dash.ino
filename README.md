@@ -29,25 +29,22 @@ Arduino/lib/targets/libraries/Dash/README.md    (this file)
 ```
 
 ## Development
---------------------------------------------------------------------------------
 
-After this library is installed, you just have to start the Arduino application.
-You may see a few warning messages as it's built.
+After this library is installed, you just have to start the Arduino application. You may see a few warning messages as it's built.
 
-To use this library in a sketch, go to the Sketch | Import Library menu and
-select Test.  This will add a corresponding line to the top of your sketch:
+To use this library in a sketch, go to the Sketch | Import Library menu and select Test.  This will add a corresponding line to the top of your sketch:
+
+```
 #include <Dash.h>
+```
 
 To stop using this library, delete that line from your sketch.
 
 Geeky information:
-After a successful build of this library, a new file named "Dash.o" will appear
-in "Arduino/lib/targets/libraries/Dash". This file is the built/compiled library
+After a successful build of this library, a new file named `Dash.o` will appear in `Arduino/lib/targets/libraries/Dash`. This file is the built/compiled library
 code.
 
-If you choose to modify the code for this library (i.e. "Dash.cpp" or "Dash.h"),
-then you must first 'unbuild' this library by deleting the "Dash.o" file. The
-new "Dash.o" with your code will appear after the next press of "verify"
+If you choose to modify the code for this library (i.e. `Dash.cpp` or `Dash.h`), then you must first 'unbuild' this library by deleting the `Dash.o` file. The new `Dash.o` with your code will appear after the next press of "verify"
 
 
 ## Good to know
