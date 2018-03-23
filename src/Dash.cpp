@@ -26,9 +26,13 @@ void DashClass::begin()
 {
   uint8_t led_num;
   for (led_num = L1; led_num <= L4; led_num++) {
-    printf("led %d init:\r\n", led_num);
+    #ifdef DEBUG
+      printf("led %d init:\r\n", led_num);
+    #endif
     led_init(led_num);
-    printf("key %d init:\r\n", led_num);
+    #ifdef DEBUG
+      printf("key %d init:\r\n", led_num);
+    #endif
     key_init(led_num);
   }
   GTimer.begin(DASH_TIMER, 5, dash_timer_handler);

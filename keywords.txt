@@ -12,8 +12,16 @@ Dash	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-init	KEYWORD2
-led_ctrl	KEYWORD2
+begin	KEYWORD2
+stop	KEYWORD2
+all_led	KEYWORD2
+led	KEYWORD2
+key	KEYWORD2
+raw_led	KEYWORD2
+raw_key	KEYWORD2
+battery	KEYWORD2
+reset	KEYWORD2
+off	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -22,4 +30,20 @@ led_ctrl	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-RGB	LITERAL1
+OFF	LITERAL1
+BLACK	LITERAL1
+RED	LITERAL1
+GREEN	LITERAL1
+YELLOW	LITERAL1
+BLUE	LITERAL1
+PURPLE	LITERAL1
+CYAN	LITERAL1
+WHITE	LITERAL1
+L1	LITERAL1
+L2	LITERAL1
+L3	LITERAL1
+L4	LITERAL1
+K1	LITERAL1
+K2	LITERAL1
+K3	LITERAL1
+K4	LITERAL1

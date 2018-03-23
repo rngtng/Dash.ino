@@ -1,6 +1,8 @@
 #ifndef _DASH_H_
 #define _DASH_H_
 
+//#define DEBUG 1
+
 #include <GTimer.h>
 #include <sys_api.h>
 
